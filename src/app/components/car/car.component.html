@@ -1,0 +1,57 @@
+
+  <div class="mb-3">
+    <label for="filterText" class="form-label">Araç ara</label>
+    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" 
+    placeholder="Aranacak ifadeyi giriniz">
+  </div>
+
+  <div *ngIf="filterText.length>2" class="alert alert-success" role="alert">
+    {{filterText}} aradınız
+  </div>
+
+   <div class="row">
+    <div class="col-md-4">
+      <select [(ngModel)]="branddFilter" class="form-select" aria-label="marka seç">
+        <option value="0" >Marka seç</option>
+        <option [value]="brand.brandId" *ngFor="let brand of brands" >{{brand.brandName}}</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <select [(ngModel)]="colorrFilter" class="form-select" aria-label="Default select example">
+        <option value="0" >Renk seç</option>
+        <option [value]="color.colorId" *ngFor="let color of colors" >{{color.colorName}}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button routerLink="/cars/color/{{colorrFilter}}/brand/{{branddFilter}}" style="width: 100%;" class=" btn btn-outline-dark" type="button" (click)="filterOnClick()"> filtrele</button>
+    </div>
+  </div>
+
+<div class="row mt-4" style="margin-left: 1%;">
+
+  <div *ngFor="let car of cars |filterPipe:filterText"  class="card mt-2 mr-2"
+     style="width: 18rem;margin-right: 10px;">
+
+    <img *ngIf="car.imagePath" [src]="car.imagePath" class="card-img-top" 
+      style="object-fit: cover;" width="100" height="50%" alt="...">
+
+    <img *ngIf="!car.imagePath" [src]="'C:\Users\asus\Downloads\RentalProject-FrontEnd-master\RentalProject-FrontEnd-master\Pictures\Ekran görüntüsü 2022-01-10 160743.jpg'" class="card-img-top" 
+      style="object-fit: cover;" width="100" height="50%" alt="...">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"> Model yılı: {{ car.modelYear }}</li>
+      <li class="list-group-item">Renk adı: {{ car.colorName }} </li>
+      <li class="list-group-item">Marka adı: {{ car.brandName }}</li>
+      <li class="list-group-item">Günlük fiyat: {{ car.dailyPrice }}</li>
+      <li class="list-group-item">Araç açıklaması: {{ car.description}}</li>
+
+    </ul>
+    <div class="card-body">
+      <div class="row">
+        <button type="button" 
+          class="btn btn-outline-success" routerLink="/cars/carDetails/{{car.carId}}" >Araba Detay</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
